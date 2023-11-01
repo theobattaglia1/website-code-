@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Tiles</title>
+    <style>
+        html {
+            display: grid;
+            place-items: center;
+            min-height: 100vh;
+            background: #222;
+            color: white;
+            text-align: center;
+            font-family: sans-serif;
+        }
+
+        body:before {
+            content: "Left/Right arrows to move";
+            display: block;
+            margin-bottom: 3rem;
+        }
+
+        div {
+            width: 20vw;
+            max-width: 20vw;
+            height: 20vw; /* Make the divs square */
+            background: none;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: inline-block;
+            margin: 1rem;
+            filter: grayscale(1) opacity(0.1) contrast(200%);
+            transition: 0.5s;
+            transform: skewY(-10deg);
+            z-index: 1;
+            pointer-events: auto;
+            position: relative; /* For positioning the text */
+            overflow: hidden; /* Ensure text doesn't spill out */
+        }
+
+        .highlight {
+            filter: grayscale(0) opacity(1);
+            transform: scale(1.1);
+            box-shadow: 0 25px 50px black;
+            z-index: 100;
+        }
+
+        @media (orientation: portrait) {
+            body:before {
+                content: "Up/Down arrows to move";
+            }
+
+            div {
+                width: 75vw;
+                height: 75vw; /* Make the divs square in portrait mode */
+                display: block;
+                margin: 1rem 0;
+                transform: none;
+            }
+        }
+
+        /* Image backgrounds for each div */
+        div:nth-child(1) {
+            background-image: url("https://64.media.tumblr.com/2f2a16d32cab74aaf0ba194828c80150/2f66b2643f9a29ca-d8/s1280x1920/b839b41af84aa67fe214b6e88cdef2353a5758cd.jpg");
+        }
+        div:nth-child(2) {
+            background-image: url("https://i.pinimg.com/564x/5e/78/6b/5e786bbd45132e55c85ff748b281f00d.jpg");
+        }
+        div:nth-child(3) {
+            background-image: url("https://www.hollywoodreporter.com/wp-content/uploads/2023/09/083023-FM-HR31546_v1-EMBED-2023.jpg");
+        }
+        div:nth-child(4) {
+            background-image: url("https://i.scdn.co/image/ab6761610000e5ebcfbf88a1f51ba071fb089448");
+        }
+        div:nth-child(5) {
+            background-image: url("https://yt3.googleusercontent.com/PMScPjOEsNR4XhOxuYtAIU9NYY1751ZjK6PvrX5pOi7lfUa0OuClelt4GURCG-iQCulaIQ-tKw=s900-c-k-c0x00ffffff-no-rj");
+        }
+        div:nth-child(6),
+        div:nth-child(7),
+        div:nth-child(8),
+        div:nth-child(9),
+        div:nth-child(10),
+        div:nth-child(11) {
+            background-image: url("https://i.ytimg.com/vi/g0N_oZ19nCA/maxresdefault.jpg");
+        }
+
+        /* Text Positioning and Effect for Non-Hovered Tiles */
+        div:after {
+            content: "NAME";
+            filter:  opacity(.65);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            text-align: center;
+            font-size: 1vw; /* Responsive font size */
+            font-weight: 900;
+            color: white;
+            text-shadow: 2px 2px #4444;
+            white-space: nowrap; /* Keep text on one line */
+        }
+
+        /* Text Positioning and Effect for Hovered Tiles */
+        div:hover:after {
+            top: 50%;
+            color: white;
+        }
+
+        /* Names for each div */
+        div:nth-child(1):after {
+            content: "Johnny Orlando";
+        }
+        div:nth-child(2):after {
+            content: "Alana O'Herlihy";
+        }
+        div:nth-child(3):after {
+            content: "Jordan Firstman";
+        }
+        div:nth-child(4):after {
+            content: "Grant McManus";
+        }
+        div:nth-child(5):after {
+            content: "Hudson Ingram";
+        }
+        div:nth-child(6):after {
+            content: "Grant McManus";
+        }
+        div:nth-child(7):after {
+            content: "Ky Newman";
+        }
+        div:nth-child(8):after {
+            content: "Nick Holiday";
+        }
+        div:nth-child(9):after {
+            content: "Chastity Hyman";
+        }
+        div:nth-child(10):after {
+            content: "Alex Chapman";
+        }
+    </style>
+</head>
+<body>
+    <div></div>
+    <div></div>
+    <div class='highlight'></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+
+    <script>
+        var divs = document.querySelectorAll("div");
+
+        divs.forEach(function (elm) {
+            elm.addEventListener("click", function () {
+                var panel = document.querySelector(".highlight");
+                if (panel) {
+                    panel.classList.remove("highlight");
+                }
+                elm.classList.add("highlight");
+            });
+        });
+
+        window.addEventListener("keyup", function (e) {
+            var panel = document.querySelector(".highlight");
+            if (
+                (e.keyCode == 37 || e.keyCode == 38) &&
+                panel != document.querySelectorAll("div")[0]
+            ) {
+                panel.previousElementSibling.classList.add("highlight");
+                panel.classList.remove("highlight");
+            }
+            if (
+                (e.keyCode == 39 || e.keyCode == 40) &&
+                panel != document.querySelectorAll("div")[divs.length - 1]
+            ) {
+                panel.nextElementSibling.classList.add("highlight");
+                panel.classList.remove("highlight");
+            }
+        });
+
+        window.focus();
+    </script>
+</body>
+</html>
